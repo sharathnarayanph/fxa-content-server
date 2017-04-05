@@ -5,7 +5,6 @@
 define(function (require, exports, module) {
   'use strict';
 
-  const Able = require('lib/able');
   const { assert } = require('chai');
   const VerificationReasons = require('lib/verification-reasons');
   const FxaClient = require('lib/fxa-client');
@@ -19,7 +18,6 @@ define(function (require, exports, module) {
   const WindowMock = require('../../mocks/window');
 
   describe('views/ready', function () {
-    let able;
     let broker;
     let fxaClient;
     let metrics;
@@ -45,7 +43,6 @@ define(function (require, exports, module) {
       fxaClient = new FxaClient();
       notifier = new Notifier();
 
-      able = new Able();
       metrics = {
         flush: sinon.spy(p),
         logMarketingImpression () {}
@@ -54,7 +51,6 @@ define(function (require, exports, module) {
 
     function createView(type, lang) {
       view = new View({
-        able: able,
         broker: broker,
         fxaClient: fxaClient,
         lang: lang,
@@ -120,7 +116,6 @@ define(function (require, exports, module) {
       });
 
       it('shows the marketing campaign if supported by broker', function () {
-        sinon.stub(able, 'choose', () => true);
         broker.setCapability('emailVerificationMarketingSnippet', true);
 
         relier.set('service', 'sync');

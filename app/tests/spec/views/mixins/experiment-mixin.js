@@ -5,7 +5,6 @@
 define(function (require, exports, module) {
   'use strict';
 
-  const Able = require('lib/able');
   const { assert } = require('chai');
   const BaseView = require('views/base');
   const Cocktail = require('cocktail');
@@ -27,7 +26,6 @@ define(function (require, exports, module) {
   );
 
   describe('views/mixins/experiment-mixin', () => {
-    let able;
     let metrics;
     let notifier;
     let user;
@@ -35,14 +33,12 @@ define(function (require, exports, module) {
     let windowMock;
 
     beforeEach(() => {
-      able = new Able();
       notifier = new Notifier();
       metrics = new Metrics({ notifier });
       user = new User();
       windowMock = new WindowMock();
 
       view = new View({
-        able: able,
         metrics: metrics,
         notifier: notifier,
         user: user,

@@ -7,7 +7,6 @@ define(function (require, exports, module) {
 
   const $ = require('jquery');
   const _ = require ('underscore');
-  const Able = require('lib/able');
   const assert = require('chai').assert;
   const AttachedClients = require('models/attached-clients');
   const BaseBroker = require('models/auth_brokers/base');
@@ -69,7 +68,7 @@ define(function (require, exports, module) {
     }
 
     beforeEach(function () {
-      able = new Able();
+      able = { choose () {} };
       sinon.stub(able, 'choose', function () {
         return true;
       });

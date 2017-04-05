@@ -7,7 +7,6 @@ define(function (require, exports, module) {
   'use strict';
 
   const $ = require('jquery');
-  const Able = require('lib/able');
   const Account = require('models/account');
   const { assert } = require('chai');
   const AuthErrors = require('lib/auth-errors');
@@ -85,7 +84,7 @@ define(function (require, exports, module) {
     beforeEach(function () {
       document.cookie = 'tooyoung=1; expires=Thu, 01-Jan-1970 00:00:01 GMT';
 
-      able = new Able();
+      able = { choose () {} };
       coppa = new CoppaAgeInput();
       email = TestHelpers.createEmail();
       formPrefill = new FormPrefill();
@@ -1157,7 +1156,7 @@ define(function (require, exports, module) {
       it('measures how successful our mailcheck suggestion is', function () {
         var windowMock = new WindowMock();
         windowMock.navigator.userAgent = 'mocha';
-        var mockAble = new Able();
+        var mockAble = { choose () {} };
         sinon.stub(mockAble, 'choose', function (name) {
           if (name === 'mailcheck') {
             return 'treatment';

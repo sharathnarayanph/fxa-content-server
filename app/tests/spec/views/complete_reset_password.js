@@ -5,7 +5,6 @@
 define(function (require, exports, module) {
   'use strict';
 
-  const Able = require('lib/able');
   const AuthErrors = require('lib/auth-errors');
   const Broker = require('models/auth_brokers/base');
   const chai = require('chai');
@@ -30,7 +29,6 @@ define(function (require, exports, module) {
     var PASSWORD = 'password';
     var TOKEN = 'feed';
 
-    var able;
     var broker;
     var fxaClient;
     var isPasswordResetComplete;
@@ -53,7 +51,6 @@ define(function (require, exports, module) {
 
     function initView() {
       view = new View({
-        able: able,
         broker: broker,
         metrics: metrics,
         notifier: notifier,
@@ -65,7 +62,6 @@ define(function (require, exports, module) {
     }
 
     beforeEach(function () {
-      able = new Able();
       broker = new Broker();
       fxaClient = new FxaClient();
       notifier = new Notifier();

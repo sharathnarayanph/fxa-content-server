@@ -19,7 +19,7 @@ define(function (require, exports, module) {
   'use strict';
 
   const _ = require('underscore');
-  const Able = require('lib/able');
+  const experimentRules = require('lib/experiments/rules/index');
   const AppView = require('views/app');
   const authBrokers = require('models/auth_brokers/index');
   const Assertion = require('lib/assertion');
@@ -89,7 +89,7 @@ define(function (require, exports, module) {
     },
 
     initializeAble () {
-      this._able = new Able();
+      this._able = experimentRules;
     },
 
     initializeConfig () {

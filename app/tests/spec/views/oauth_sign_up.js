@@ -6,7 +6,6 @@ define(function (require, exports, module) {
   'use strict';
 
   const $ = require('jquery');
-  const Able = require('lib/able');
   const Assertion = require('lib/assertion');
   const chai = require('chai');
   const FormPrefill = require('models/form-prefill');
@@ -107,7 +106,7 @@ define(function (require, exports, module) {
         fxaClient: fxaClient
       });
       formPrefill = new FormPrefill();
-      able = new Able();
+      able = { choose () {} };
       notifier = new Notifier();
       sentryMetrics = new SentryMetrics();
       metrics = new Metrics({ notifier, sentryMetrics });

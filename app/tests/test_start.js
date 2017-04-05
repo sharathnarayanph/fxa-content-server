@@ -12,7 +12,6 @@ function (Translator, Session) {
 
   var tests = [
     '../tests/spec/head/startup-styles',
-    '../tests/spec/lib/able',
     '../tests/spec/lib/app-start',
     '../tests/spec/lib/assertion',
     '../tests/spec/lib/auth-errors',

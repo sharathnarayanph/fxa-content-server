@@ -5,7 +5,6 @@
 define(function (require, exports, module) {
   'use strict';
 
-  const Able = require('lib/able');
   const { assert } = require('chai');
   const ExperimentInterface = require('lib/experiment');
   const Metrics = require('lib/metrics');
@@ -35,7 +34,7 @@ define(function (require, exports, module) {
     beforeEach(() => {
       windowMock = new WindowMock();
       windowMock.navigator.userAgent = 'mocha';
-      able = new Able();
+      able = { choose: sinon.spy() };
       user = new User({
         uniqueUserId: UUID
       });

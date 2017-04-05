@@ -7,7 +7,6 @@ define(function (require, exports, module) {
 
   const $ = require('jquery');
   const _ = require('underscore');
-  const Able = require('lib/able');
   const { assert } = require('chai');
   const AuthErrors = require('lib/auth-errors');
   const BaseView = require('views/base');
@@ -83,7 +82,7 @@ define(function (require, exports, module) {
     }
 
     beforeEach(function () {
-      able = new Able();
+      able = { choose () {} };
       formPrefill = new FormPrefill();
       fxaClient = new FxaClient();
       notifier = new Notifier();
