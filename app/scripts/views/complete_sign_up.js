@@ -77,7 +77,8 @@ define(function (require, exports, module) {
       const options = {
         reminder: verificationInfo.get('reminder'),
         serverVerificationStatus: this.getSearchParam('server_verification') || null,
-        service: this.relier.get('service')
+        service: this.relier.get('service'),
+        type: verificationInfo.get('type')
       };
 
       return this.user.completeAccountSignUp(account, code, options)
