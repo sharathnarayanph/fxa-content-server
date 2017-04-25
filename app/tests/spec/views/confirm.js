@@ -216,7 +216,7 @@ define(function (require, exports, module) {
         sinon.stub(broker, expectedBrokerCall, () => p());
         sinon.stub(user, 'setAccount', () => p());
         sinon.stub(view, 'setTimeout', (callback) => callback());
-        sinon.stub(view, '_navigateToConfirmedScreen', () => p());
+        sinon.stub(view, '_navigateToNextScreen', () => p());
 
         return view.afterVisible()
           .then(function () {
@@ -226,7 +226,7 @@ define(function (require, exports, module) {
             assert.isTrue(user.setAccount.calledWith(account));
             assert.isTrue(broker.beforeSignUpConfirmationPoll.calledWith(account));
             assert.isTrue(broker[expectedBrokerCall].calledWith(account));
-            assert.isTrue(view._navigateToConfirmedScreen.calledOnce);
+            assert.isTrue(view._navigateToNextScreen.calledOnce);
             assert.isTrue(TestHelpers.isEventLogged(
                     metrics, 'confirm.verification.success'));
             assert.isTrue(notifySpy.withArgs('verification.success').calledOnce);
@@ -361,6 +361,32 @@ define(function (require, exports, module) {
 
         it('re-throws the error', function () {
           assert.equal(error.message, 'synthesized error from auth server');
+        });
+      });
+    });
+
+    describe('_navigateToNextScreen', () => {
+      describe('eligible for CAD', () => {
+        it('delegates to navigateToConnectAnotherDeviceScreen', ()  => {
+          sinon.stub(view, 'isEligibleForConnectAnotherDevice', () => true);
+          sinon.stub(view, 'navigateToConnectAnotherDeviceScreen', () => {});
+
+          const account = {};
+          view._navigateToNextScreen(account);
+
+          assert.isTrue(view.navigateToConnectAnotherDeviceScreen.calledOnce);
+          assert.isTrue(view.navigateToConnectAnotherDeviceScreen.calledWith(account));
+        });
+      });
+
+      describe('ineligible for CAD', () => {
+        it('delegates to _navigateToConfirmedScreen', ()  => {
+          sinon.stub(view, 'isEligibleForConnectAnotherDevice', () => false);
+          sinon.stub(view, '_navigateToConfirmedScreen', () => {});
+
+          view._navigateToNextScreen();
+
+          assert.isTrue(view._navigateToConfirmedScreen.calledOnce);
         });
       });
     });

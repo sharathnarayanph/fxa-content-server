@@ -10,6 +10,7 @@ define(function (require, exports, module) {
   const BackMixin = require('views/mixins/back-mixin');
   const BaseView = require('views/base');
   const Cocktail = require('cocktail');
+  const ConnectAnotherDeviceMixin = require('views/mixins/connect-another-device-mixin');
   const Constants = require('lib/constants');
   const ExperimentMixin = require('views/mixins/experiment-mixin');
   const OpenConfirmationEmailMixin = require('views/mixins/open-webmail-mixin');
@@ -19,6 +20,7 @@ define(function (require, exports, module) {
   const ResumeTokenMixin = require('views/mixins/resume-token-mixin');
   const ServiceMixin = require('views/mixins/service-mixin');
   const Template = require('stache!templates/confirm');
+  const UserAgentMixin = require('views/mixins/user-agent-mixin');
   const VerificationReasonMixin = require('views/mixins/verification-reason-mixin');
 
   const proto = BaseView.prototype;
@@ -71,6 +73,14 @@ define(function (require, exports, module) {
       return this.broker.transformLink(screenUrl);
     },
 
+    _navigateToNextScreen (account) {
+      if (this.isEligibleForConnectAnotherDevice(account)) {
+        return this.navigateToConnectAnotherDeviceScreen(account);
+      } else {
+        return this._navigateToConfirmedScreen();
+      }
+    },
+
     _navigateToConfirmedScreen () {
       if (this.isSignUp()) {
         this.navigate('signup_confirmed');
@@ -112,7 +122,7 @@ define(function (require, exports, module) {
 
           return this.invokeBrokerMethod(brokerMethod, this.getAccount());
         })
-        .then(() => this._navigateToConfirmedScreen())
+        .then(() => this._navigateToNextScreen(this.getAccount()))
         .fail((err) => {
           // The user's email may have bounced because it was invalid.
           // Redirect them to the sign up page with an error notice.
@@ -167,12 +177,14 @@ define(function (require, exports, module) {
   Cocktail.mixin(
     View,
     BackMixin,
+    ConnectAnotherDeviceMixin,
     ExperimentMixin,
     OpenConfirmationEmailMixin,
     PulseGraphicMixin,
     ResendMixin,
     ResumeTokenMixin,
     ServiceMixin,
+    UserAgentMixin,
     VerificationReasonMixin
   );
 
